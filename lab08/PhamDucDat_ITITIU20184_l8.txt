@@ -1,0 +1,171 @@
+Name: Pham Duc Dat
+ID: ITITIU20184
+
+I. Scheduling: Introductory: FCFS 1
+- Q1: What is the total execution time of the processes (how long between starting and finishing)?
+Answer: The total execution time in a FCFS algorithm with both processes set to run for 30 milliseconds each would be 60 milliseconds. This is because the processes execute sequentially with no overlapping.
+
+- Q2: Do you think the FCFS scheduling algorithm is fair? Does fairness actually matter if all processes run for a very short time only? Try setting the process 1 Runtime to 300 milliseconds and repeat the experiment. Look at the wait time for each process – does this seem reasonable?
+Answer: FCFS is generally regarded as fair because it processes jobs in the order they arrive. However, this fairness can lead to inefficiency, especially when the processes have significantly different runtimes. For example, increasing the runtime of Process 1 to 300 milliseconds would result in Process 2 waiting for 300 milliseconds before it can start, which seems unreasonable. This demonstrates that while FCFS is simple and treats all processes equally, it may not be efficient or reasonable in terms of reducing waiting time, particularly in mixed-runtime environments.
+
+II. Scheduling: Introductory: SJF 1
+- Q1: From your observations in steps 2 and 4, what can be said about the efficiency of the FCFS scheduling algorithm (does it depend on luck?)
+Answer: The efficiency of the FCFS scheduling algorithm heavily depends on the order of job arrivals. If a longer job arrives before a shorter one, it can significantly increase the waiting time and overall system time for subsequent jobs, which could be seen as a matter of "luck". This makes FCFS less ideal for environments where job durations vary greatly.
+
+- Q2. Can you think of a way to improve the behaviour of the FCFS scheduling algorithm?
+Answer: To improve the behavior of the FCFS scheduling algorithm, introducing priority levels might help, where processes are initially queued by arrival but can be reordered based on their priority or urgency. However, this modification would essentially transform it into a priority scheduling algorithm.
+
+- Q3. What is the fundamental difference between the FCFS and SJF scheduling algorithms? Which is superior?
+Answer: The fundamental difference between FCFS and SJF is that FCFS schedules jobs in the order they arrive without regard to their duration, while SJF schedules jobs based on their execution time, aiming to run the shortest job available first. SJF is generally superior to FCFS in terms of reducing average wait time and increasing system throughput. However, SJF can lead to starvation of longer processes if short processes continue to arrive. Thus, while SJF is superior in environments where reducing the average wait time is critical, its application should be carefully considered where long jobs are equally critical and must not be starved.
+
+III. Scheduling: Introductory: FCFS 2
+- Q1. Is the Runtime Used the same as the Total Time in System? If not, explain why?
+Answer: Yes, for a CPU Intense process with no IO operations, the Runtime Used should be the same as the Total Time in System. The process utilizes the CPU continuously without any blocking or waiting, resulting in both times being equal (30 milliseconds).
+
+- Q2. Is the Runtime Used the same as the Total Time in System? If not, explain why?
+Answer: No, for a Balanced process, the Runtime Used is not the same as the Total Time in System. The process will spend part of its time doing IO operations, during which it is blocked and not using the CPU. Thus, while the CPU runtime remains at 30 milliseconds, the Total Time in System will be longer due to the time spent waiting for IO operations.
+
+- Q3. Is the Runtime Used the same as the Total Time in System? If not, explain why?
+Answer: No, for an IO Intense process, the Runtime Used is significantly different from the Total Time in System. Although the process still requires 30 milliseconds of CPU time, it spends much of its time blocked waiting for IO operations to complete. Hence, the Total Time in System will be much greater than the Runtime Used.
+
+- Q4. Can you see a pattern to the relationship between the Runtime Used and the Total Time in System for the three types of process?
+Answer: Yes, there is a clear pattern. For CPU Intense processes where there are no IO operations, the Runtime Used equals the Total Time in System. As the frequency and intensity of IO operations increase (from Balanced to IO Intense processes), the Total Time in System becomes progressively larger than the Runtime Used. This indicates that processes that engage in more IO spend a greater proportion of time blocked and thus have a larger discrepancy between the time they use the CPU and their overall time in the system.
+
+
+IV. Introductory: FCFS 3
+- Q1. What is the total execution time of the processes (how long between starting and finishing)?
+Answer: The total execution time will be the sum of the time both processes spend in the system. Since it's a non-preemptive FCFS, Process 1, despite being IO Intense, will hold the CPU until it completes or is blocked, followed by Process 2 which will use the CPU for its entire runtime. Assuming minimal overlap due to IO, the total execution time will be close to 160 milliseconds (30 milliseconds for Process 1 plus 130 milliseconds for Process 2).
+
+- Q2. Did you notice if the CPU was always busy? (you can run the simulation again to check)? Does it matter if the CPU is not busy?
+Answer: In a FCFS non-preemptive setup, especially with an IO Intense process involved, the CPU may not always be busy. During the periods when the IO Intense process (Process 1) is blocked waiting for IO operations, the CPU could be idle. It matters significantly if the CPU is not busy as this leads to inefficient CPU utilization, potentially increasing overall system latency and reducing throughput.
+
+- Q3. Look at the wait time for each process - what has caused this?
+Answer: The wait time for Process 2 is caused primarily by having to wait for Process 1 to complete or release the CPU (which happens when it performs an IO operation and gets blocked). The wait time directly results from the non-preemptive nature of FCFS, where a process must wait for its turn based on its arrival time irrespective of whether it's ready to run immediately.
+
+- Q4. Do you think FCFS algorithm is preemptive or non-preemptive? How can you tell?
+Answer: The FCFS algorithm is non-preemptive. This can be determined from the behavior that each process holds the CPU until it either completes its execution or gets blocked (in the case of IO operations). There is no preemption where a process is forcibly removed from the CPU to make way for another process.
+
+- Q5. What is the fundamental effect of having inefficient scheduling?
+Answer: Inefficient scheduling leads to poor utilization of system resources like the CPU, which can result in longer wait times, increased response times, and lower throughput. It affects the performance of the entire system negatively, potentially increasing operational costs and affecting user experience.
+
+- Q6. Which do you think is the most efficient: preemptive scheduling or non-preemptive scheduling?
+Answer: Preemptive scheduling is generally more efficient than non-preemptive scheduling. It allows the system to make dynamic decisions about which process to run next based on priority, runtime needs, or other criteria, rather than simply adhering to the order of arrival. This flexibility helps in optimizing resource utilization, reducing wait times, and improving system responsiveness, particularly in diverse and high-load environments.
+
+V. Scheduling: Introductory: SJF 2
+- Q1. What is the total execution time of the processes (how long between starting and finishing)?
+Answer: Even though SJF chooses the shortest job first, in this non-preemptive setup, Process 1 (IO Intense) with a runtime of 30 milliseconds runs before Process 2, which has a runtime of 130 milliseconds. The total execution time, assuming that there are no significant overheads from switching and that IO blocks do not release the CPU for other jobs in a non-preemptive model, would be 160 milliseconds (30 + 130).
+
+- Q2. Did you notice if the CPU was always busy? (you can run the simulation again to check)? Does it matter if the CPU is not busy?
+Answer: During the simulation, when Process 1 (IO Intense) performs IO operations and gets blocked, the CPU is not busy because it is non-preemptive; it waits for Process 1 to complete its term, including its IO waiting time. Yes, it matters significantly if the CPU is not busy, as this indicates inefficiency in the scheduling algorithm. Idle CPU time could be utilized for processing other ready-to-run tasks, thus improving throughput and decreasing overall system response time.
+
+- Q3. Look at the wait time for each process - what has caused this?
+Answer: In this scenario, the wait time for Process 2 is caused by it having to wait until Process 1 completes its execution, despite Process 1 having IO operations where it is not using the CPU. This waiting period is due to the non-preemptive nature of the SJF algorithm, where once a process starts, it cannot be interrupted until it completes, even if it is not actively using the CPU.
+
+- Q4. Do you think SJF algorithm is preemptive or non-preemptive? How can you tell?
+Answer: In the described setup, SJF is functioning in a non-preemptive mode. You can tell because even when Process 1 (IO Intense) is not using the CPU (e.g., when it is blocked for IO), the CPU remains idle instead of switching to Process 2. In a preemptive mode, the scheduler would have taken advantage of this idle time by running Process 2 or any other ready process until Process 1 was ready to proceed.
+
+VI. Scheduling: Introductory: ROUND ROBIN (RR) 1
+
+- Q1. What is the total execution time of the processes (how long between starting and finishing)?
+Answer: The total execution time in a Round Robin setup can be slightly longer than in other scheduling algorithms due to the overhead introduced by context switching. The actual total time will depend on the time slice given to each process but will generally be the sum of the total runtimes plus any overhead from switching between processes. Assuming no significant delays from IO blocks (since it's a simulation), it could be slightly more than 160 milliseconds.
+
+- Q2. Did you notice if the CPU was always busy? (you can run the simulation again to check)? Does it matter if the CPU is not busy?
+Answer: In a Round Robin system, the CPU should typically remain busy as it alternates between the available processes; however, if a process is waiting for IO, it might go idle depending on the simulation's handling of such events. It does matter if the CPU is not busy, as this could indicate inefficiencies like unnecessary idling or overhead from frequent context switches.
+
+- Q3. Look at the wait time for each process - what has caused this?
+Answer: The wait times in a Round Robin system are influenced by the rotation through the queue and the time slice each process receives. If the time slice is too short relative to the task needs or system overhead, the processes might spend a significant amount of time waiting to be executed again, which can lead to inefficiencies.
+
+- Q4. Do you think RR algorithm is preemptive or non-preemptive? How can you tell?
+Answer: The Round Robin algorithm is preemptive. You can tell because it allows a process to run for a specific time slice and then forces it to yield the CPU, regardless of whether it has completed its execution. This behavior is different from non-preemptive scheduling, where a process would continue to run until it either completes or voluntarily yields control (typically during an IO operation).
+
+- Q5. How does the ‘Total Time in System’ differ, between the three scheduling algorithms (FCFS, SJF, and RR)? Can you explain why this is so?
+Answer: FCFS: Likely to have the least overhead but can lead to high total times if a long process precedes shorter ones.
+SJF: Generally results in a lower total time in system because it minimizes the amount of time short jobs wait, reducing overall wait times.
+RR: Might have a higher total system time compared to SJF and sometimes even FCFS due to the overhead from frequent context switches and potentially underutilized CPU time slices, especially if slices are not optimally aligned with the job sizes.
+Each algorithm has its strengths and weaknesses, and their efficiency can vary significantly based on the types and behaviors of the processes they manage. RR's preemptive nature helps prevent any single process from monopolizing the CPU, which can be critical in systems requiring high responsiveness, despite potentially higher overheads.
+
+VII. Scheduling: Introductory: RR 2
+
+- Q1. For each process, is the Runtime Used the same as the Total Time in System? If not, explain why?
+Answer: In a Round Robin scheduling scenario, while the Runtime Used (the actual CPU time each process consumes) for each process will be 30 milliseconds, the Total Time in System (the time from start to finish for each process) will likely be longer. This is because each process is given a slice of the CPU time, and then must wait for its next turn as the CPU alternates between the processes. This waiting time adds to the Total Time in System for each process.
+
+- Q2. Is the total Runtime Used (for both processes), the same as the Total Time in System for each process? Explain individually for each process?
+Answer: The total Runtime Used for both processes combined will be 60 milliseconds (30 ms each). However, the Total Time in System for each process will be longer than their individual runtime due to the time spent waiting during the CPU slices allocated to the other process. Thus, while the aggregate runtime is 60 ms, the Total Time in System for each process will be greater than 30 ms and could be approximately the same for both if their CPU time slices are evenly distributed.
+
+- Q3. For each process, is the Runtime Used the same as the Total Time in System? If not, explain why?
+Answer: Similar to the previous setup, the Runtime Used for each process will match their configured runtime (60 milliseconds), but the Total Time in System will again be greater due to the waiting time incurred while the other process takes its turn at the CPU.
+
+- Q4. Is the total Runtime Used (for both processes), the same as the Total Time in System for each process? Explain individually for each process? Can you see a pattern forming?
+Answer: The total Runtime Used remains 120 milliseconds (60 ms each). However, the Total Time in System for each process will still exceed their runtime. The pattern that forms is consistent: while each process gets its full CPU time, the total system time reflects the waiting time due to the alternation of CPU slices, indicating increased overhead with larger runtimes in a round-robin setting.
+
+- Q5. Based on your observations, do you think that the RR scheduling algorithm is fair to all processes? How does the fairness of RR compare to that of FCFS? Or SJF?
+Answer: The RR algorithm is generally considered fair because it gives each process an equal slice of CPU time, preventing any single process from dominating the CPU. This contrasts with FCFS, where processes are simply executed in the order they arrive, which can lead to inefficiencies if a long process arrives before shorter ones. Compared to SJF, which prioritizes shorter tasks to decrease average wait time and potentially increase throughput, RR does not prioritize by task length and instead ensures that all tasks are treated equally in terms of time allocation. This can make RR more appropriate in environments where response time and fairness are more critical than minimizing average wait time.
+
+VIII. Scheduling: Introductory: RR 3
+
+- Q1. What is the total execution time of the process (how long between starting and finishing)?
+Answer: The total execution time for the process will include its CPU usage time plus any time spent waiting for I/O operations to complete. Since this is the only process in the system, there shouldn't be any waiting time for CPU access. The total execution time might be slightly longer than 50 milliseconds, considering the overhead for I/O operations.
+
+- Q2. How much of this time is due to actual processing (using the CPU)?
+Answer: The actual processing time using the CPU would ideally be close to the 50 milliseconds configured for the runtime. However, this assumes that all the configured runtime is purely for CPU processing, which might not be entirely the case for a balanced process as it also engages in I/O operations.
+
+- Q3. How much of this time is due to waiting for I/O devices?
+Answer: In a balanced process, a portion of the execution time will involve waiting for I/O operations. The exact amount of time spent waiting for I/O is not specified but can be inferred from the difference between the total execution time and the CPU processing time. If the process is blocked waiting for I/O, the CPU might be idle during these periods unless the simulation allows for other background tasks or system processes.
+
+- Q4. If there are no other processes present, how much CPU time is unused while the process is executing?
+Answer: The unused CPU time while the process is executing would correspond to the time the process spends waiting for I/O devices. In a Round Robin setting with no other competing processes, any time not spent actively processing on the CPU (i.e., when the process is blocked for I/O) results in the CPU being idle. This unused CPU time would be equal to the I/O wait time.
+
+IX. Scheduling: Introductory: RR 4
+
+- Q1. What is the total execution time of each process (how long between starting and finishing)?
+Answer: The total execution time for each process will be the sum of their active CPU times plus any time spent blocked waiting for I/O operations, in addition to the time spent waiting in the RR queue for another turn at the CPU. This can make the total execution time longer than the standalone runtime due to the interleaving of processes.
+
+- Q2. Why are the execution times different for two identical processes?
+Answer: Even if the processes are identical in nature and runtime, their execution times might differ due to the ordering and interleaving effect of RR scheduling. The first process to execute may start immediately, while the second must wait for the first to use its time slice. This initial wait can stagger their executions slightly differently depending on how the time slices align with their I/O operations.
+
+- Q3. What is the overall time taken to execute both the processes?
+Answer: The overall time to execute both processes in a Round Robin setting is typically not merely the sum of their individual runtimes. It includes the overhead of context switching and the potential inefficiencies introduced by alternating time slices. The total time is influenced by how their CPU and I/O needs interleave and how effectively the scheduler can utilize CPU downtime (during one process's I/O wait) to run the other process.
+
+- Q4. Why is the time taken to execute two processes not double the time taken to execute one of them? (refer to the results of Lab Sheet: Scheduling: Introductory: RR3).
+Answer: The time taken to execute two processes in RR is not merely double that of one because RR can sometimes utilize the CPU more efficiently by switching between processes. When one process is waiting for I/O, the scheduler can allow the other process to use the CPU, thereby reducing overall idle times. This overlapping of CPU usage and I/O wait times can lead to a total execution time that is less than double the time for one process, demonstrating a key advantage of preemptive, time-sliced scheduling in managing multiple processes more efficiently than sequential execution.
+
+X. Scheduling: Introductory: RR 5
+
+- Q1. What are the differences in the way the three types of processes run?
+Answer: CPU Intensive: This process type utilizes the CPU continuously until completion, experiencing minimal state changes and no blocked states.
+Balanced: Alternates between using the CPU and being blocked for I/O, leading to more state changes and potentially longer total times due to waiting for I/O operations.
+IO Intensive: Spends a significant portion of time blocked waiting for I/O operations, leading to the most state changes and the highest total times.
+
+- Q2. Which process runs the fastest? Which one runs the slowest? Explain why there is this difference.
+Answer: The CPU Intensive process runs the fastest as it consistently uses the CPU without interruptions. The IO Intensive process runs the slowest due to frequent blocking for I/O operations, which prevents continuous CPU utilization.
+
+- Q3. Explain why the slowest process is so slow?
+Answer: The IO Intensive process is slow because it spends a lot of time waiting for I/O operations to complete, which are typically slower than CPU operations and cause the process to be frequently blocked and inactive in terms of CPU utilization.
+
+- Q4. Comment on the differences you can observe for the total time taken for the simulation
+Answer: Running two CPU Intensive processes might slightly extend beyond 50ms due to context switching. Both Balanced and IO Intensive pairs exhibit longer total times due to alternating states and blocking for I/O.
+
+- Q5. Using the various statistics collected, comment on the way that the processes ran. Were any blocked and unable to run? Why were they blocked?
+Answer: In the Balanced and IO Intensive cases, processes were frequently blocked, typically waiting for I/O operations to complete. Blocking occurs because these processes need to interact with slower I/O devices, pausing their CPU activity.
+
+- Q6. Which simulation runs the fastest? Which one runs the slowest? Explain why there is this difference.
+Answer: The simulation with both CPU Intensive processes runs the fastest because both are utilizing the CPU efficiently with minimal downtime. The slowest are typically those with IO Intensive processes, where significant time is spent waiting for I/O, thus not using the CPU effectively.
+
+XI. Scheduling: Introductory: Scheduling Algorithms 1
+
+- Q1. What difference does the ‘process-mix’ make to the overall scheduling behaviour and the total time taken for the simulation?
+Answer:  The process-mix significantly influences the performance and efficiency of different scheduling algorithms:
+a. CPU Intensive + CPU Intensive: This combination generally shows minimal variation across algorithms since both processes primarily demand CPU time, making RR and FCFS almost equivalent in handling them.
+b. CPU Intensive + IO Intensive: This mix highlights the differences between algorithms:
+=> FCFS may lead to inefficiencies if the CPU Intensive process blocks the IO Intensive one.
+=> SJF might prioritize the CPU Intensive process if it’s shorter, potentially exacerbating waiting times for the IO Intensive process due to its blocking nature.
+=> RR offers more balanced CPU time distribution but might introduce more context switching overhead.
+c. Balanced + Balanced: Tends to be less discriminative across algorithms since the processes are similar, but RR might handle it more efficiently due to better time slicing that accommodates the IO operations within these processes.
+
+Q2. What type of process best shows up the differences between the scheduling algorithms? What type of process least shows up the differences? Why is this?
+Answer:
+a. Best Shows Differences:
+Mixed types (CPU Intensive + IO Intensive): This combination best illustrates the strengths and weaknesses of each scheduling algorithm. The contrast between process demands (constant CPU use vs. frequent blocking for IO) stresses the scheduling logic, revealing how each algorithm manages resource allocation and process waiting times.
+b. Least Shows Differences:
+Homogeneous types (CPU Intensive + CPU Intensive or IO Intensive + IO Intensive): These combinations least show the differences between the algorithms because the uniform nature of the processes doesn’t challenge the scheduling strategies significantly. For example, if both processes are CPU Intensive, they are similarly impacted by the scheduling algorithm without significant variation in handling, particularly in FCFS and RR.
+Processes like Balanced + Balanced also tend not to show dramatic differences, particularly in RR and SJF, because their demands fluctuate similarly between CPU usage and IO waiting, which these algorithms can handle with moderate efficiency without significant disparities.
