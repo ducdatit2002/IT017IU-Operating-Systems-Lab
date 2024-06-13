@@ -1,0 +1,342 @@
+Name: Pham Duc Dat
+ID: ITITIU20184
+
+I. Lab Activity: Scheduling: Advanced: FCFS 1
+Q1. Total Execution Time of the Processes
+For FCFS scheduling, each process must wait for the previous one to finish completely before it can start. With the given configuration, each process is CPU Intensive, meaning they do not involve I/O operations that would otherwise place them in the BLOCKED state. The total execution time can be calculated by simply adding up the runtime of all the processes:
+
+Process 1: 30 milliseconds
+Process 2: 40 milliseconds
+Process 3: 50 milliseconds
+Process 4: 40 milliseconds
+Process 5: 30 milliseconds
+The total execution time will be 
+30+40+50+40+30=190
+30+40+50+40+30=190 milliseconds.
+
+Q2. Fairness of the FCFS Scheduling Algorithm
+FCFS is considered fair in the sense that processes are handled in the order they arrive, without any prioritization. This fairness, however, can lead to inefficiencies, particularly in the presence of processes with varying execution times.
+
+When you set Process 1's runtime to 300 milliseconds and repeat the experiment, the wait time for subsequent processes (especially those with shorter runtimes) will significantly increase, demonstrating a drawback of FCFS known as the "convoy effect." This can seem unreasonable as shorter tasks must wait for the long task to complete, which can lead to higher average wait times and lower system responsiveness.
+
+Q3. Efficiency of FCFS Regarding CPU Idleness
+When changing all processes to a Balanced type, where each process involves some I/O operations, the efficiency of the FCFS can decrease. The CPU might frequently be idle during I/O operations (BLOCKED state) unless the scheduling and system configurations effectively overlap CPU and I/O work. In a pure FCFS setting without such overlapping, the CPU could be idle whenever a process is blocked, waiting for I/O operations to complete, which is inefficient.
+
+Q4. Nature of FCFS - Preemptive or Non-preemptive?
+FCFS is a non-preemptive scheduling algorithm. Once a process starts executing in the CPU, it continues until it either finishes its CPU burst or transitions to a BLOCKED state due to I/O operations. In the FCFS scheduling, there is no interruption or preemption of a running process to replace it with another process, regardless of the quantum size or any other factor.
+
+II. Lab Activity: Scheduling: Advanced: SJF 1
+Q1. Total Execution Time of the Processes
+In the SJF algorithm, processes are selected for execution based on the shortest runtime, which minimizes the waiting time overall. The total execution time for all processes remains the same as in FCFS because SJF does not reduce the CPU time needed; it only reorders execution. So, with the process runtimes specified:
+
+Process 1: 30 milliseconds
+Process 2: 40 milliseconds
+Process 3: 50 milliseconds
+Process 4: 40 milliseconds
+Process 5: 30 milliseconds
+The total execution time will be 
+30+40+50+40+30=190
+30+40+50+40+30=190 milliseconds, similar to FCFS because SJF does not alter the total CPU time used, it only affects the order of processing.
+
+Q2. Fairness of the SJF Scheduling Algorithm
+SJF is generally not considered fair because shorter jobs are always prioritized, which can lead to longer tasks suffering from significant delays, a phenomenon known as "starvation." If Process 1’s runtime is increased to 300 milliseconds and it arrives first, it will be scheduled last due to its longer duration. This setup can lead to unreasonable wait times for Process 1 while all shorter jobs are completed first, potentially impacting time-sensitive tasks negatively.
+
+Q3. Efficiency of SJF Regarding CPU Idleness
+Changing all processes to a Balanced type, where each process does some I/O, might affect the efficiency of the SJF algorithm. However, since SJF focuses on minimizing waiting time by prioritizing shorter jobs, it can be more efficient in terms of overall throughput. CPU idleness would depend on how the I/O operations are scheduled; ideally, other processes would run while some are waiting for I/O, reducing CPU idle times.
+
+Q4. Nature of SJF - Preemptive or Non-preemptive?
+SJF can be implemented in both preemptive and non-preemptive versions. The preemptive version is often referred to as Shortest Remaining Time First (SRTF). If the simulation you're running uses a non-preemptive SJF, then once a process starts running, it will not be interrupted until it completes, regardless of whether a shorter process arrives later. The setup information does not specify if it's preemptive or not, but typically, educational tools start with non-preemptive versions for simplicity.
+
+Q5. Differences Between SJF and FCFS Behaviors
+Order of Execution: SJF schedules processes based on their length (shortest first), unlike FCFS, which simply follows the order of arrival.
+Response Time: SJF generally provides a better average response time, especially in systems with many short jobs.
+Starvation: SJF can cause longer processes to wait indefinitely if short processes keep arriving, unlike FCFS, where every process will eventually be served.
+Throughput: SJF can achieve higher throughput in scenarios with varied job lengths due to minimizing the overall waiting time.
+
+III. Lab Activity: Scheduling: Advanced: RR 1
+Q1. Total Execution Time of the Processes
+To calculate the total execution time using the Round Robin scheduling algorithm, you need to consider the quantum size and the sum of all processes' runtimes, accounting for the context switch overhead, if any. The processes have the following runtimes:
+
+Process 1: 30 milliseconds
+Process 2: 40 milliseconds
+Process 3: 50 milliseconds
+Process 4: 40 milliseconds
+Process 5: 30 milliseconds
+In Round Robin, each process gets a turn for a specified quantum (10 milliseconds in this case). They cycle through until all processes complete their execution:
+
+First Round (each process uses up to 10 ms): 10 ms x 5 = 50 ms
+Second Round (each of Processes 1, 2, 3, 4, and 5 still needs 20, 30, 40, 30, 20 ms respectively): 10 ms x 5 = 50 ms
+Third Round (continuing as needed): Each subsequent round will decrease the remaining time until all complete.
+Each process will stop running when its remaining time drops to zero. Summing these up and considering that not every round will use the full quantum for each process (as some finish sooner), the exact calculation would involve detailed simulation data but would roughly be around the sum of the runtimes plus some additional time for the last partial quantum accesses.
+
+Q2. Fairness of the RR Scheduling Algorithm
+Round Robin is generally considered very fair because it gives each process an equal share of the CPU time in turns. This minimizes the waiting time for any single process compared to their total runtime. If Process 1's runtime is extended to 300 milliseconds, it still receives the CPU for 10 milliseconds in each cycle, just like other processes. While it will take much longer for Process 1 to complete, it does not block other processes from progressing in the meantime, which can be seen as maintaining fairness.
+
+Q3. Efficiency of RR in Terms of CPU Idleness
+In scenarios where processes are of type 'Balanced', involving some I/O operations, the CPU could ideally handle other tasks while a given process is waiting for I/O, thereby reducing idleness. RR can potentially minimize CPU idle times because it can switch to another process as soon as one goes into an I/O wait, depending on the scheduling of I/O and process interactions.
+
+Q4. Nature of the RR Algorithm - Preemptive or Non-preemptive?
+Round Robin is a preemptive scheduling algorithm. It allows a process to run for a fixed quantum of time. If the process does not complete within that quantum, it is preempted and placed back in the ready queue to wait for the next turn.
+
+Q5. Differences Between RR and FCFS
+Order of execution: RR cycles through processes in fixed time slices, while FCFS follows the order of arrival without regard to duration.
+Response time: RR can offer better response times across all processes as it avoids long waits behind lengthy processes, unlike FCFS.
+
+Q6. Differences Between RR and SJF
+Selection of process: RR does not consider process length, treating all processes equally, while SJF selects the shortest available job next, aiming to minimize the average waiting time.
+Starvation: RR prevents starvation by ensuring every process gets CPU time periodically, whereas SJF can cause longer processes to starve if shorter processes keep arriving.
+
+IV. Lab Activity: Scheduling: Advanced: SRJN 1
+Q1. Total Execution Time of the Processes
+For the SRJN scheduling algorithm, the total execution time will be the sum of the runtimes of all processes. Since processes are CPU intense and there's no I/O involved:
+
+Process 1: 30 milliseconds
+Process 2: 40 milliseconds
+Process 3: 50 milliseconds
+Process 4: 40 milliseconds
+Process 5: 30 milliseconds
+The total execution time is 
+30+40+50+40+30=190
+30+40+50+40+30=190 milliseconds.
+
+Q2. Fairness of the SRJN Scheduling Algorithm
+SRJN is designed to minimize the waiting time by always choosing the process with the shortest remaining time. This approach can lead to unfairness, particularly for longer processes that may get preempted repeatedly by shorter ones.
+
+When setting Process 1's runtime to 300 milliseconds, the wait time for each process needs careful observation. Longer processes will tend to have significantly higher wait times because they are repeatedly preempted by incoming shorter jobs, which may not seem reasonable in some scenarios.
+
+Q3. Efficiency of SRJN Regarding CPU Idleness
+With the configuration changed to balanced processes involving I/O operations, SRJN can still be efficient. The algorithm keeps the CPU busy by switching to the next shortest job while a process is in the blocked state for I/O operations, potentially reducing CPU idle time.
+
+Q4. Nature of the SRJN Algorithm - Preemptive or Non-preemptive
+SRJN is a preemptive scheduling algorithm. It can interrupt a running process if a new process arrives with a shorter remaining time than the currently running process.
+
+Q5. Differences Between SRJN and FCFS
+Order of Execution: SRJN prioritizes processes with the shortest remaining time, while FCFS follows the order of arrival.
+Response Time: SRJN generally provides better average response times as it dynamically selects the shortest remaining job, unlike FCFS where longer jobs delay shorter ones.
+Starvation: SRJN can cause longer jobs to suffer from starvation, which does not occur in FCFS.
+
+Q6. Differences Between SRJN and SJF
+Dynamic Behavior: SRJN is a dynamic version of SJF. While SJF is non-preemptive, SRJN preempts running processes when a shorter job arrives.
+Starvation: Both algorithms can cause starvation for longer jobs, but SRJN can handle dynamic arrivals better due to its preemptive nature.
+
+Q7. Differences Between SRJN and RR
+Order of Execution: SRJN selects processes based on the shortest remaining time, whereas RR uses a fixed time slice and cycles through processes in a round-robin manner.
+Response Time: SRJN can offer better response times for shorter jobs, while RR provides a more equitable sharing of CPU time among all processes.
+Starvation: RR prevents starvation by giving each process a fair share of CPU time periodically, unlike SRJN, which can cause starvation for longer processes.
+
+V. Lab Activity: Scheduling: Advanced: SRJN 2
+
+Q1. Efficiency Comparison
+To determine which algorithm is more efficient, compare the CPU idle time for both simulations.
+- Round Robin:
+With RR, the CPU switches between processes every 10 milliseconds. This can lead to a scenario where the CPU is idle when processes are waiting for I/O operations to complete, as it cannot switch instantly to a ready process.
+Shortest Remaining Job Next:
+SRJN prioritizes processes with the shortest remaining time. This approach can potentially minimize CPU idle time by always selecting the next process that can execute immediately, even when some processes are blocked on I/O.
+- Efficiency Result:
+Observation: If the recorded statistics show that SRJN has lower CPU idle time than RR, SRJN is more efficient in this simulation.
+Generalization: This difference might be due to the specific mix of CPU and I/O intense processes. Generally, SRJN tends to be more efficient with a diverse set of processes as it dynamically adjusts to the shortest remaining jobs, potentially leading to lower CPU idle times.
+
+Q2. Fairness Comparison
+Fairness is determined by examining the waiting times for each process. A fair scheduler will have relatively similar waiting times for all processes.
+- Round Robin:
+RR gives each process a fixed time slice, cycling through them. This ensures that all processes get a regular chance to execute, leading to more equitable waiting times.
+Shortest Remaining Job Next:
+SRJN may lead to some processes waiting longer if they have higher remaining times, especially if shorter jobs keep arriving.
+- Fairness Result:
+Observation: Compare the waiting times from the statistics. If RR shows more uniform waiting times across processes, it is considered fairer.
+Generalization: RR is generally fairer in a broad set of scenarios because it treats all processes equally without considering their runtime.
+
+Q3. Responsiveness Comparison
+Responsiveness is measured by the mean waiting-time and mean total-time-in-system for each set of processes.
+- Mean Waiting Time: Average of the time each process spends waiting in the ready queue.
+Mean Total Time in System: Average of the total time from when a process enters the system until it completes execution.
+- Responsiveness Result:
+Observation: Calculate the mean waiting-time and mean total-time-in-system for both RR and SRJN.
+If SRJN shows lower mean waiting-time and total-time-in-system, it indicates higher responsiveness.
+Generalization: SRJN often provides higher responsiveness for shorter processes due to its preemptive nature and prioritization of shorter jobs. However, the specific set of processes can influence this outcome. For a mixed set of processes, SRJN is generally more responsive.
+
+VI. Lab Activity: Scheduling: Advanced: Quantum Size 1
+
+Q1. Effect of Quantum Size on Fairness
+To determine how quantum size affects fairness, examine the wait times for each process across different quantum sizes.
+
+Quantum Size = 5 milliseconds: The CPU frequently switches between processes, leading to more uniform wait times as each process gets frequent, though short, access to the CPU.
+Quantum Size = 10 milliseconds: Similar to 5 milliseconds but with fewer context switches. Wait times might still be relatively similar across processes.
+Quantum Size = 15 milliseconds: Context switches become less frequent, possibly causing more variation in wait times as some processes may have longer waits before getting CPU access.
+Quantum Size = 20 milliseconds: Even less frequent context switches, increasing the likelihood of significant differences in wait times.
+Quantum Size = 25 milliseconds: Context switches are infrequent, leading to the greatest differences in wait times, especially for I/O-bound processes that might finish their bursts quickly and wait for the next quantum.
+Fairness Result:
+
+Observation: Smaller quantum sizes (5 and 10 milliseconds) tend to cause processes to encounter similar wait times, whereas larger quantum sizes (20 and 25 milliseconds) cause greater differences in wait times.
+Reasoning: Smaller quanta result in more frequent context switches, allowing each process more equal opportunities to execute, leading to more similar wait times. Larger quanta favor processes that can use the entire quantum, causing longer wait times for others.
+
+Q2. Effect of Quantum Size on Mean Wait-Time
+Calculate the mean wait-time for each quantum size configuration.
+
+Smaller Quantum Sizes (5 and 10 milliseconds): Result in lower mean wait-times because processes get to run more frequently, reducing the time spent waiting.
+Larger Quantum Sizes (15, 20, and 25 milliseconds): Increase the mean wait-time since each process might have to wait longer for its turn if another process is using the entire quantum.
+Wait-Time Result:
+
+Observation: As the quantum size increases, the mean wait-time generally increases.
+Reasoning: Larger quanta mean that processes have to wait longer for their next turn if another process occupies the CPU for the entire duration of its quantum.
+
+Q3. Effect of Quantum Size on Mean Total-Time-in-the-System
+Calculate the mean total-time-in-the-system for each quantum size configuration.
+
+Smaller Quantum Sizes (5 and 10 milliseconds): Processes frequently switch, possibly causing slightly higher total times due to the overhead of context switches.
+Larger Quantum Sizes (15, 20, and 25 milliseconds): Reduce the overhead from context switches, potentially lowering the total time in the system but may increase it due to longer wait times.
+Total-Time-in-the-System Result:
+
+Observation: There is an optimal quantum size that minimizes the mean total-time-in-the-system. Too small quanta increase context switch overhead, and too large quanta increase wait times.
+Reasoning: The mean total-time-in-the-system is affected by the balance between minimizing context switch overhead and minimizing wait times. Intermediate quantum sizes typically strike a better balance.
+
+VII. Lab Activity: Scheduling: Advanced: IO Latency 1
+
+Q1. Effect of Increasing IO Device Latency on Total-Time-in-the-System
+To analyze the impact of IO device latency on the total time in the system for each process, compare the total-time-in-the-system for different IO latencies.
+
+Observation: As IO device latency increases, the total-time-in-the-system for IO intensive and balanced processes is likely to increase.
+Reasoning: Higher IO latency means that processes will spend more time in the BLOCKED state waiting for IO operations to complete. This delays their return to the READY state and, subsequently, their execution.
+Effect on Processes:
+CPU Intense Processes: These processes may not be significantly affected by changes in IO latency since they do not perform IO operations.
+IO Intense and Balanced Processes: These processes will likely take longer to execute as IO latency increases due to more extended periods in the BLOCKED state.
+
+Q2. Effect of IO Device Latency on Mean Total-Time-in-the-System
+Calculate the mean total-time-in-the-system for each set of IO latencies.
+
+Observation: As IO device latency increases, the mean total-time-in-the-system for the processes is expected to increase.
+Reasoning: Higher IO latency prolongs the duration processes spend waiting for IO operations to complete, thereby increasing the total time they spend in the system. This is consistent with expectations as IO-bound processes are directly affected by the time it takes to perform IO operations.
+
+Q3. Effect of IO Device Latency on Mean Wait-Time
+Calculate the mean wait-time for each set of IO latencies.
+
+Observation: As IO device latency increases, the mean wait-time is also expected to increase.
+Reasoning: Processes that perform IO operations (Balanced and IO Intense) will spend more time in the BLOCKED state waiting for IO completion. During this time, other processes might get scheduled, but once these IO processes return to the READY state, they have to wait longer for their turn to be scheduled again, thus increasing the overall wait-time.
+Effect on Expectation: The increase in mean wait-time is expected as higher IO latencies inherently delay the completion of IO operations, causing processes to spend more time waiting.
+
+VIII. Lab Activity: Scheduling: Advanced: Predicting Behaviour 1
+
+Q1. Which Process Will Finish First?
+Prediction: Process 3 (IO Intense, Runtime = 30 milliseconds)
+Reasoning: SJF prioritizes processes with the shortest total runtime. Process 3 has the shortest runtime among the selected processes.
+
+Q2. Which Process Will Finish Last?
+Prediction: Process 2 (Balanced, Runtime = 50 milliseconds)
+Reasoning: SJF will first complete Process 3 (30 ms) and then Process 1 (40 ms) before starting on Process 2 (50 ms).
+
+Q3. How Much Time Will Process 2 Spend in the Blocked State?
+Prediction: Process 2 is Balanced, implying it performs some IO operations. With an IO Device Latency of 10 milliseconds and given a runtime of 50 milliseconds, let's assume it performs 2 IO operations, each causing it to be blocked for 10 milliseconds.
+Estimated Blocked Time: 
+2×10=20
+2×10=20 milliseconds
+Running the Simulation for SJF
+Check predictions against the actual results and analyze any discrepancies to understand why they occurred.
+Predictions for Shortest Remaining Job Next (SRJN)
+
+Q4. Which Process Will Finish First?
+Prediction: Process 3 (IO Intense, Runtime = 30 milliseconds)
+Reasoning: Similar to SJF, SRJN will first complete the process with the shortest remaining time, which is Process 3.
+
+Q5. Which Process Will Finish Last?
+Prediction: Process 2 (Balanced, Runtime = 50 milliseconds)
+Reasoning: SRJN will continually preempt to the process with the shortest remaining time. Process 2 has the longest total runtime and will likely be preempted multiple times by Process 3 and then by Process 1 until both are completed.
+
+Q6. How Much Time Will Process 2 Spend in the Blocked State?
+Prediction: Same as the previous configuration, the Balanced process (Process 2) will perform some IO operations. Assuming 2 IO operations with 10 milliseconds each:
+
+Estimated Blocked Time: 
+2×10=20
+2×10=20 milliseconds
+Running the Simulation for SRJN
+Check predictions against the actual results and analyze any discrepancies to understand why they occurred.
+
+IX. Lab Activity: Scheduling: Advanced: Predicting Behaviour 2
+
+Q1. Which Process Will Finish First?
+Prediction: Process 3 (IO Intense, Runtime = 30 milliseconds)
+Reasoning: SRJN prioritizes processes with the shortest remaining time. Process 3 has the shortest total runtime and will likely be completed first due to its shorter bursts and frequent I/O operations.
+
+Q2. Which Process Will Finish Last?
+Prediction: Process 2 (Balanced, Runtime = 50 milliseconds)
+Reasoning: Process 2 has the longest runtime among the selected processes, and it will likely be preempted multiple times by the shorter processes (Process 3 and Process 1).
+
+Q3. How Much Time Will Process 1 Spend in the Blocked State?
+Prediction: Process 1 is Balanced, meaning it performs some I/O operations. Given a runtime of 40 milliseconds and an IO Device Latency of 20 milliseconds, assume it performs 2 I/O operations.
+Estimated Blocked Time: 
+2×20=40
+2×20=40 milliseconds
+Running the Simulation for SRJN
+Run the simulation and record all statistics values.
+Compare predictions to the actual results to understand any discrepancies.
+Modified Configuration
+Processes:
+Process 1: Type = CPU Intense, Runtime = 70 milliseconds
+Process 2: Type = Balanced, Runtime = 50 milliseconds
+Process 3: Type = IO Intense, Runtime = 30 milliseconds
+Process 4: Not selected
+Process 5: Not selected
+Predictions for Modified Configuration
+
+Q4. Which Process Will Finish First?
+Prediction: Process 3 (IO Intense, Runtime = 30 milliseconds)
+Reasoning: SRJN will again prioritize the shortest remaining job, and Process 3 has the shortest total runtime.
+
+Q5. Which Process Will Finish Last?
+Prediction: Process 1 (CPU Intense, Runtime = 70 milliseconds)
+Reasoning: With a longer runtime and no I/O operations, Process 1 will likely be preempted by the other processes, causing it to finish last.
+
+Q6. How Much Time Will Process 1 Spend in the Blocked State?
+Prediction: Process 1 is now CPU Intense and does not perform I/O operations.
+Estimated Blocked Time: 0 milliseconds
+
+X. Lab Activity: Scheduling: Advanced: Predicting Behaviour 3
+
+Q1. Which Process Will Start First?
+Prediction: Process 4 (IO Intense, Runtime = 30 milliseconds)
+Reasoning: SRJN will start the process with the shortest runtime first, which is Process 4.
+
+Q2. Which Process Will Finish First?
+Prediction: Process 4 (IO Intense, Runtime = 30 milliseconds)
+Reasoning: Since Process 4 has the shortest runtime, it is likely to finish first.
+
+Q3. Which Process Will Finish Last?
+Prediction: Process 3 (CPU Intense, Runtime = 100 milliseconds)
+Reasoning: Process 3 has the longest runtime and will likely be preempted multiple times by the shorter IO Intense processes.
+
+Q4. How Much Time Will Process 1 Spend in the Blocked State?
+Prediction: Process 1 will perform several I/O operations. Assuming it performs 2 I/O operations (each causing it to be blocked for 25 milliseconds)
+Estimated Blocked Time: 
+2×25=50
+2×25=50 milliseconds
+
+Q5. How Much Time Will Process 4 Spend in the Run State?
+Prediction: Process 4 is IO Intense with a total runtime of 30 milliseconds. Assuming it gets scheduled in short bursts due to frequent blocking:
+Estimated Run Time: 30 milliseconds (since it needs to complete its CPU bursts)
+Running the Simulation for SRJN with Initial Configuration
+Run the simulation and record all statistics values.
+Compare predictions to actual results and analyze any discrepancies.
+Modified Configuration
+IO Device Latency: 20 milliseconds
+Predictions for SRJN with Modified IO Device Latency
+
+Q6. Which Process Will Start First?
+Prediction: Process 4 (IO Intense, Runtime = 30 milliseconds)
+Reasoning: The process with the shortest runtime will start first.
+
+Q7. Which Process Will Finish First?
+Prediction: Process 4 (IO Intense, Runtime = 30 milliseconds)
+Reasoning: Process 4 has the shortest runtime and is likely to finish first.
+
+Q8. Which Process Will Finish Last?
+Prediction: Process 3 (CPU Intense, Runtime = 100 milliseconds)
+Reasoning: Process 3 has the longest runtime and will likely be preempted multiple times by the shorter IO Intense processes.
+
+Q9. How Much Time Will Process 2 Spend in the Blocked State?
+Prediction: Process 2 will perform several I/O operations. Assuming it performs 2 I/O operations (each causing it to be blocked for 20 milliseconds):
+Estimated Blocked Time: 
+2×20=40
+2×20=40 milliseconds
+
+Q10. How Much Time Will Process 3 Spend in the Run State?
+Prediction: Process 3 is CPU Intense with a total runtime of 100 milliseconds. Since it doesn't perform I/O operations:
+Estimated Run Time: 100 milliseconds (since it needs to complete its CPU bursts)
